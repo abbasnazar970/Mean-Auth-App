@@ -29,7 +29,7 @@ const config = require("../config/db");
     const User= module.exports = mongoose.model("User",UserSchema);
 
     module.exports.getUserID=(id,callback)=>{
-    User.findByid(id,callback);
+    User.findById(id,callback);
 }
 
 module.exports.getUserByUsername=(username,callback)=>{
@@ -44,6 +44,13 @@ module.exports.addUser = function (newUser, callback) {
             newUser.password=hash;
             newUser.save(callback);
     });
+    });
+}
+
+module.exports.comparePassword=function (password,hash,callback) {
+    bycrypt.compare(password,hash,(err,isMatch)=>{
+            if(err) throw err;
+            callback(null,isMatch);
     });
 }
 
